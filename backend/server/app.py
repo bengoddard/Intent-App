@@ -2,7 +2,7 @@ from flask import request, make_response, jsonify
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from config import app, db, api, jwt
-from models import User, MediaItem, UserSchema, MediaItemSchema, ListEntry, Review, Follow
+from models import User, UserSchema, MediaItem, MediaItemSchema, ListEntry, ListEntrySchema, Review, ReviewSchema, Follow, FollowSchema
 from flask_jwt_extended import create_access_token, get_jwt_identity, verify_jwt_in_request
 from flask_cors import CORS
 from datetime import date, timedelta

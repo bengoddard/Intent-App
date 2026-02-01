@@ -27,19 +27,23 @@ This project was created using Flask for the backend and React for the frontend.
 ## Setup and Run Instructions
 
 ### Backend Setup
-1. **Install backend dependencies:**
+1. **Navigate to backend directory:**
+   ```bash
+   cd backend
+   ```
+2. **Install backend dependencies:**
     ```bash
    pipenv install
    ```
-2. **Create virtual environment:**
+3. **Create virtual environment:**
     ```bash
    pipenv shell
    ```
-3. **Navigate to server directory:**
+4. **Navigate to server directory:**
    ```bash
    cd server
    ```
-4. **Start flask server:**
+5. **Start flask server:**
    ```bash
    flask run --port 5555
    ```
@@ -47,6 +51,10 @@ This project was created using Flask for the backend and React for the frontend.
     The backend needs to run at **http://localhost:5555**
 
 ### Frontend Setup
+1. **Install dependencies:**
+   ```bash
+   cd frontend
+   ```
 1. **Install dependencies:**
    ```bash
    npm install
@@ -58,7 +66,7 @@ This project was created using Flask for the backend and React for the frontend.
    ```
 
    The frontend will run at **http://localhost:4000**
-   To see some sample data, you can login with username: Ben, and password: password123
+
 
 
 ### API Endpoints
