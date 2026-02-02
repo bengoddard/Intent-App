@@ -39,7 +39,7 @@ class Signup(Resource):
         except IntegrityError:
             return {'error': '422 Unprocessable Entity'}, 422
 
-class WhoAmI(Resource):
+class CurrentUser(Resource):
     def get(self):
         user_id = get_jwt_identity()
         user = User.query.get(int(user_id))
@@ -61,9 +61,25 @@ class Login(Resource):
 
         return {'error': '401 Unauthorized'}, 401
 
+class Feed(Resource):
+    def get(self):
+        user_id = get_jwt_identity()
+        if user_id:
+            following_ids = [f.following_id for f in user_id.following]
+            items = (
+        MediaItem.query
+        .filter(MediaItem.user_id.in_([user_id] + following_ids))
+        .order_by(MediaItem.id.desc())
+        .limit(50)
+        .all()
+    )
+
+        return jsonify(MediaItemSchema(many=True).dump(items)), 200
+
 api.add_resource(Signup, '/signup', endpoint='signup')
-api.add_resource(WhoAmI, '/me', endpoint='me')
+api.add_resource(CurrentUser, '/me', endpoint='me')
 api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(Feed, '/feed', endpoint='feed')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
