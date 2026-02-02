@@ -1,6 +1,7 @@
 from flask import request, make_response, jsonify
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import or_
 from config import app, db, api, jwt
 from models import User, UserSchema, MediaItem, MediaItemSchema, ListEntry, ListEntrySchema, Review, ReviewSchema, Follow, FollowSchema
 from flask_jwt_extended import create_access_token, get_jwt_identity, verify_jwt_in_request
@@ -39,14 +40,6 @@ class Signup(Resource):
         except IntegrityError:
             return {'error': '422 Unprocessable Entity'}, 422
 
-class CurrentUser(Resource):
-    def get(self):
-        user_id = get_jwt_identity()
-        user = User.query.get(int(user_id))
-        if not user:
-            return {"error": "User not found"}, 404
-        return UserSchema().dump(user), 200
-
 class Login(Resource):
     def post(self):
 
@@ -56,17 +49,44 @@ class Login(Resource):
         user = User.query.filter(User.username == username).first()
 
         if user and user.authenticate(password):
-            token = create_access_token(identity=str(user.id))
+            token = create_access_token(identity=(user.id))
             return make_response(jsonify(token=token, user=UserSchema().dump(user)), 200)
 
         return {'error': '401 Unauthorized'}, 401
 
+class Profile(Resource):
+    def get(self, id):
+        user = User.query.get(id)
+        if not user:
+            return {"error": "User not found"}, 404
+
+        items = (
+            MediaItem.query
+            .filter_by(user_id=user.id)
+            .order_by(MediaItem.id.desc())
+            .limit(50)
+            .all()
+        )
+
+        follower_count = Follow.query.filter_by(following_id=user.id).count()
+        following_count = Follow.query.filter_by(follower_id=user.id).count()
+
+        return {
+            "profile": UserSchema().dump(user),
+            "items": MediaItemSchema(many=True).dump(items),
+            "follower_count": follower_count,
+            "following_count": following_count,
+        }, 200
+
 class Feed(Resource):
     def get(self):
-        user_id = get_jwt_identity()
-        if user_id:
-            following_ids = [f.following_id for f in user_id.following]
-            items = (
+        user_id = int(get_jwt_identity())
+        user = User.query.get(user_id)
+        if not user:
+            return {"error": "User not found"}, 404
+
+        following_ids = [f.following_id for f in user_id.following]
+        items = (
         MediaItem.query
         .filter(MediaItem.user_id.in_([user_id] + following_ids))
         .order_by(MediaItem.id.desc())
@@ -77,6 +97,27 @@ class Feed(Resource):
         return jsonify(MediaItemSchema(many=True).dump(items)), 200
 
 class ItemByID(Resource):
+    def get(self, id):
+        user_id = int(get_jwt_identity())
+        item = MediaItem.query.get(id)
+        if not item:
+            return {"error": "Item not found"}, 404
+
+        reviews = (
+            Review.query
+            .filter_by(media_id=id)
+            .order_by(Review.created_at.desc())
+            .all()
+        )
+
+        my_entry = ListEntry.query.filter_by(user_id=user_id, media_id=id).first()
+
+        return {
+            "item": MediaItemSchema().dump(item),
+            "reviews": ReviewSchema(many=True).dump(reviews),
+            "my_list_entry": ListEntrySchema().dump(my_entry) if my_entry else None,
+        }, 200
+
     def patch(self, id):
         user_id = get_jwt_identity()
         item = MediaItem.query.filter_by(id=id, user_id=user_id).first()
@@ -103,10 +144,45 @@ class ItemByID(Resource):
         db.session.commit()
         return {}, 204
 
+class Discover(Resource):
+    def get(self):
+        q = (request.args.get("q") or "").strip()
+
+        query = MediaItem.query
+
+        if q:
+            query = query.filter(
+                or_(
+                    MediaItem.title.ilike(f"%{q}%"),
+                    MediaItem.creator.ilike(f"%{q}%"),
+                    MediaItem.type.ilike(f"%{q}%"),
+                    MediaItem.details.ilike(f"%{q}%"),
+                )
+            )
+
+        items = query.order_by(MediaItem.id.desc()).limit(50).all()
+        return MediaItemSchema(many=True).dump(items), 200
+
+class ToExperience(Resource):
+    def get(self):
+        user_id = int(get_jwt_identity())
+
+        entries = (
+            ListEntry.query
+            .filter_by(user_id=user_id, status=False)
+            .order_by(ListEntry.added_at.desc())
+            .all()
+        )
+
+        return ListEntrySchema(many=True).dump(entries), 200
+
+
 api.add_resource(Signup, '/signup', endpoint='signup')
-api.add_resource(CurrentUser, '/me', endpoint='me')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Feed, '/feed', endpoint='feed')
+api.add_resource(Discover, '/discover', endpoint='discover')
+api.add_resource(Profile, '/users/<int:id>', endpoint='profile')
+api.add_resource(ToExperience, '/to-experience', endpoint='to_experience')
 api.add_resource(ItemByID, '/items/<int:id>', endpoint='item_by_id')
 
 if __name__ == '__main__':

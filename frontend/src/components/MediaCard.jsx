@@ -21,7 +21,7 @@ function MediaCard({ item, token, onUpdated, onDeleted }){
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ title, notes, frequency }),
+      body: JSON.stringify({ type, title, creator, details }),
     })
       .then(async (r) => {
         const data = await r.json().catch(() => null);
@@ -104,6 +104,7 @@ function MediaCard({ item, token, onUpdated, onDeleted }){
         <>
           <h3 style={{ marginTop: 0 }}>Edit Item</h3>
 
+        <div style={{ display: "grid", gap: 10 }}>
             <label>
               Type
               <select
@@ -119,12 +120,20 @@ function MediaCard({ item, token, onUpdated, onDeleted }){
               </select>
             </label>
 
-          <div style={{ display: "grid", gap: 10 }}>
             <label>
               Title
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                style={{ width: "100%", padding: 8, marginTop: 4 }}
+              />
+            </label>
+
+            <label>
+              Creator
+              <input
+                value={creator}
+                onChange={(e) => setCreator(e.target.value)}
                 style={{ width: "100%", padding: 8, marginTop: 4 }}
               />
             </label>
