@@ -86,18 +86,11 @@ class MediaItem(db.Model):
     details = db.Column(db.String)
 
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
+    user = db.relationship("User", back_populates="media_items")
 
-    list_entries = db.relationship(
-        'ListEntry',
-        back_populates='media_item',
-        cascade='all, delete-orphan'
-    )
+    list_entries = db.relationship('ListEntry', back_populates='media_item', cascade='all, delete-orphan')
 
-    reviews = db.relationship(
-        'Review',
-        back_populates='media_item',
-        cascade='all, delete-orphan'
-    )
+    reviews = db.relationship('Review', back_populates='media_item', cascade='all, delete-orphan')
 
     @validates('type')
     def validate_type(self, key, value):
@@ -111,7 +104,7 @@ class ListEntry(db.Model):
     __tablename__ = 'list_entries'
 
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False, primary_key=True)
-    media_id = db.Column(db.Integer(), db.ForeignKey('mediaItems.id'), nullable=False, primary_key=True)
+    media_id = db.Column(db.Integer(), db.ForeignKey('media_items.id'), nullable=False, primary_key=True)
     status = db.Column(db.Boolean, nullable=False, default=False)
     added_at = db.Column(db.Date, nullable=False, default=date.today)
     completed_at = db.Column(db.Date)
@@ -123,7 +116,7 @@ class Review(db.Model):
     __tablename__ = 'reviews'
 
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False, primary_key=True)
-    media_id = db.Column(db.Integer(), db.ForeignKey('mediaItems.id'), nullable=False, primary_key=True)
+    media_id = db.Column(db.Integer(), db.ForeignKey('media_items.id'), nullable=False, primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
     text = db.Column(db.String)
     created_at = db.Column(db.Date, nullable=False, default=date.today)
@@ -140,8 +133,8 @@ class Review(db.Model):
 class Follow(db.Model):
     __tablename__ = 'follows'
 
-    follower_id = db.Column(db.Integer, primary_key=True)
-    following_id = db.Column(db.Integer, primary_key=True)
+    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    following_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
 
     follower = db.relationship(
         'User',

@@ -8,7 +8,7 @@ from models import User, MediaItem, ListEntry, Review, Follow
 
 
 def seed_data():
-    print("🌱 Clearing database...")
+    print("Clearing database...")
 
     Follow.query.delete()
     Review.query.delete()
@@ -16,7 +16,7 @@ def seed_data():
     MediaItem.query.delete()
     User.query.delete()
 
-    print("👤 Creating users...")
+    print("Creating users...")
 
     alice = User(username="alice")
     alice.password_hash = "password123"
@@ -30,7 +30,7 @@ def seed_data():
     db.session.add_all([alice, bob, charlie])
     db.session.commit()
 
-    print("🎬 Creating media items...")
+    print("Creating media items...")
 
     book = MediaItem(
         type="book",
@@ -59,7 +59,7 @@ def seed_data():
     db.session.add_all([book, movie, show])
     db.session.commit()
 
-    print("📋 Creating list entries...")
+    print("Creating list entries...")
 
     entry1 = ListEntry(
         user_id=alice.id,
@@ -83,7 +83,7 @@ def seed_data():
     db.session.add_all([entry1, entry2, entry3])
     db.session.commit()
 
-    print("⭐ Creating reviews...")
+    print("Creating reviews...")
 
     review1 = Review(
         user_id=alice.id,
@@ -102,7 +102,7 @@ def seed_data():
     db.session.add_all([review1, review2])
     db.session.commit()
 
-    print("🤝 Creating follows...")
+    print("Creating follows...")
 
     follow1 = Follow(
         follower_id=alice.id,
@@ -122,7 +122,7 @@ def seed_data():
     db.session.add_all([follow1, follow2, follow3])
     db.session.commit()
 
-    print("✅ Database seeded successfully!")
+    print("Database seeded successfully!")
 
 
 if __name__ == "__main__":
