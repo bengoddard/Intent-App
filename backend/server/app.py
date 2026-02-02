@@ -76,10 +76,38 @@ class Feed(Resource):
 
         return jsonify(MediaItemSchema(many=True).dump(items)), 200
 
+class ItemByID(Resource):
+    def patch(self, id):
+        user_id = get_jwt_identity()
+        item = MediaItem.query.filter_by(id=id, user_id=user_id).first()
+        if not item:
+            return {"error": "Item not found"}, 404
+
+        request_json = request.get_json()
+        try:
+            for attr in request_json:
+                setattr(item, attr, request_json[attr])
+            db.session.commit()
+            return MediaItemSchema().dump(item), 200
+        except Exception as e:
+            db.session.rollback()
+            return {"error": str(e)}, 422
+
+    def delete(self, id):
+        user_id = get_jwt_identity()
+        item = MediaItem.query.filter_by(id=id, user_id=user_id).first()
+        if not item:
+            return {"error": "Item not found"}, 404
+
+        db.session.delete(item)
+        db.session.commit()
+        return {}, 204
+
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CurrentUser, '/me', endpoint='me')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Feed, '/feed', endpoint='feed')
+api.add_resource(ItemByID, '/items/<int:id>', endpoint='item_by_id')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
