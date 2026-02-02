@@ -1,16 +1,78 @@
-# React + Vite
+# Intent - Full-Stack Application
+This app is designed to help users take control of their free time by intentionally choosing better experiences. It serves as a social platform for tracking, reviewing, and discovering media across multiple formats, including movies, TV shows, books, video games, and music.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Description
+Inspired by platforms like Letterboxd, this app expands the concept beyond film to create a unified space for all types of media. Users can maintain a personal To-Experience list—a single, organized place to save anything they want to watch, read, play, or listen to. The list can be filtered by media type, making it easy to find something that fits the user’s current mood or available time.
 
-Currently, two official plugins are available:
+Ultimately, this app aims to turn passive consumption into intentional experience—helping users waste less time deciding, and spend more time enjoying things that matter to them.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies Used
 
-## React Compiler
+### Frontend
+- **React 19** - UI library for building interactive user interfaces
+- **Vite** - Fast build tool and development server
+- **React Router DOM 7** - Client-side routing and navigation
+This project was created using Flask for the backend and React for the frontend.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Backend
+- **Flask 3.0** - Python web framework
+- **Flask-SQLAlchemy 3.1** - ORM for database operations
+- **Flask-JWT-Extended 4.6** - JWT token management for authentication
+- **Flask-CORS 4.0** - Cross-origin resource sharing
+- **bcrypt 4.1** - Password hashing and security
+- **flask-migrate 4.0** -Simplifies database schema migrations for applications using SQLAlchemy.
+- **SQLAlchemy** - Database abstraction layer
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Setup and Run Instructions
+
+### Backend Setup
+1. **Navigate to backend directory:**
+   ```bash
+   cd backend
+   ```
+2. **Install backend dependencies:**
+    ```bash
+   pipenv install
+   ```
+3. **Create virtual environment:**
+    ```bash
+   pipenv shell
+   ```
+4. **Navigate to server directory:**
+   ```bash
+   cd server
+   ```
+5. **Start flask server:**
+   ```bash
+   flask run --port 5555
+   ```
+
+    The backend needs to run at **http://localhost:5555**
+
+### Frontend Setup
+1. **Install dependencies:**
+   ```bash
+   cd frontend
+   ```
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Start React App:**
+   ```bash
+   npm run start
+   ```
+
+   The frontend will run at **http://localhost:4000**
+
+
+
+### API Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST | `/signup` | Register new user | No |
+| POST | `/login` | Login user | No |
+| GET | `/me` | Get current user | Yes |
