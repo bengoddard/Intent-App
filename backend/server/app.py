@@ -85,7 +85,7 @@ class Feed(Resource):
         if not user:
             return {"error": "User not found"}, 404
 
-        following_ids = [f.following_id for f in user_id.following]
+        following_ids = [f.following_id for f in user.following]
         items = (
         MediaItem.query
         .filter(MediaItem.user_id.in_([user_id] + following_ids))
@@ -94,7 +94,7 @@ class Feed(Resource):
         .all()
     )
 
-        return jsonify(MediaItemSchema(many=True).dump(items)), 200
+        return MediaItemSchema(many=True).dump(items), 200
 
 class Items(Resource):
     def post(self):
@@ -267,7 +267,6 @@ class Reviews(Resource):
         if not media_id or rating is None:
             return {"error": "media_id and rating are required"}, 400
 
-        # Upsert: if review exists, update it
         review = Review.query.filter_by(user_id=user_id, media_id=media_id).first()
         if not review:
             review = Review(
@@ -314,7 +313,6 @@ class FollowUser(Resource):
         if target_id == user_id:
             return {"error": "You cannot follow yourself"}, 400
 
-        # prevent duplicates
         existing = Follow.query.filter_by(follower_id=user_id, following_id=target_id).first()
         if existing:
             return FollowSchema().dump(existing), 200
@@ -343,7 +341,7 @@ class UnfollowUser(Resource):
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
-api.add_resource(Feed, '/feed', endpoint='feed')
+api.add_resource(Feed, '/', endpoint='feed')
 api.add_resource(Discover, '/discover', endpoint='discover')
 api.add_resource(Profile, '/users/<int:id>', endpoint='profile')
 api.add_resource(ToExperience, '/to-experience', endpoint='to_experience')

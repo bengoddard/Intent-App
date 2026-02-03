@@ -18,7 +18,6 @@ export default function Item() {
 
   useEffect(() => {
     load().catch((e) => setErr(e.message));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   async function addToList() {
@@ -72,7 +71,7 @@ export default function Item() {
       <h3>Write a review</h3>
       <form onSubmit={submitReview} style={{ display: "grid", gap: 8, maxWidth: 420 }}>
         <label>
-          Rating (1–5)
+          Rating (0–100)
           <input type="number" min="1" max="5" value={rating} onChange={(e) => setRating(e.target.value)} />
         </label>
         <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder="Thoughts…" />

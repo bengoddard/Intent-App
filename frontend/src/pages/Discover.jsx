@@ -8,7 +8,7 @@ export default function Discover() {
   const [err, setErr] = useState("");
 
   // create item form
-  const [type, setType] = useState("book");
+  const [type, setType] = useState("Book");
   const [title, setTitle] = useState("");
   const [creator, setCreator] = useState("");
   const [details, setDetails] = useState("");
@@ -64,13 +64,11 @@ export default function Discover() {
           <label>
             Type
             <select value={type} onChange={(e) => setType(e.target.value)}>
-              <option value="book">book</option>
-              <option value="movie">movie</option>
-              <option value="show">show</option>
-              <option value="podcast">podcast</option>
-              <option value="article">article</option>
-              <option value="game">game</option>
-              <option value="music">music</option>
+              <option value="book">Book</option>
+              <option value="movie">Movie</option>
+              <option value="show">Show</option>
+              <option value="game">Game</option>
+              <option value="music">Music</option>
             </select>
           </label>
           <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />

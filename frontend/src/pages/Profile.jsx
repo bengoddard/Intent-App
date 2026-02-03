@@ -18,7 +18,6 @@ export default function Profile({ me }) {
 
   useEffect(() => {
     load().catch((e) => setErr(e.message));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   // NOTE: Backend currently returns counts but not "am I following?"

@@ -28,7 +28,6 @@ function App() {
       const data = await api.me();
       setMe(data);
     } catch {
-      // token invalid/expired
       setMe(null);
     } finally {
       setLoadingMe(false);
@@ -37,7 +36,6 @@ function App() {
 
   useEffect(() => {
     refreshMe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
