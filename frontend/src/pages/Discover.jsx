@@ -7,7 +7,6 @@ export default function Discover() {
   const [items, setItems] = useState([]);
   const [err, setErr] = useState("");
 
-  // create item form
   const [type, setType] = useState("Book");
   const [title, setTitle] = useState("");
   const [creator, setCreator] = useState("");
@@ -84,7 +83,7 @@ export default function Discover() {
         {items.map((it) => (
           <li key={it.id} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 12 }}>
             <Link to={`/items/${it.id}`} style={{ fontWeight: 800 }}>{it.title}</Link>
-            <div>{it.creator} • {it.type}</div>
+            <div>{it.creator} • {it.type.charAt(0).toUpperCase() + it.type.slice(1)}</div>
           </li>
         ))}
       </ul>

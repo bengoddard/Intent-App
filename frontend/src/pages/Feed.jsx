@@ -27,7 +27,7 @@ export default function Feed() {
         {items.map((it) => (
           <li key={it.id} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 12 }}>
             <Link to={`/items/${it.id}`} style={{ fontWeight: 800 }}>{it.title}</Link>
-            <div>{it.creator} • {it.type}</div>
+            <div>{it.creator} • {it.type.charAt(0).toUpperCase() + it.type.slice(1)}</div>
             {it.details && <div style={{ opacity: 0.8 }}>{it.details}</div>}
           </li>
         ))}

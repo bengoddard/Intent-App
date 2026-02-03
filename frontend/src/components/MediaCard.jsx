@@ -112,11 +112,11 @@ function MediaCard({ item, token, onUpdated, onDeleted }){
                 onChange={(e) => setType(e.target.value)}
                 style={{ width: "100%", padding: 8, marginTop: 4 }}
               >
-                <option value="book">book</option>
-                <option value="show">show</option>
-                <option value="movie">movie</option>
-                <option value="game">game</option>
-                <option value="music">music</option>
+                <option value="book">Book</option>
+                <option value="show">Show</option>
+                <option value="movie">Movie</option>
+                <option value="game">Game</option>
+                <option value="music">Music</option>
               </select>
             </label>
 

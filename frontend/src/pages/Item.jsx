@@ -7,7 +7,7 @@ export default function Item() {
   const [data, setData] = useState(null);
   const [err, setErr] = useState("");
 
-  const [rating, setRating] = useState(5);
+  const [rating, setRating] = useState(0);
   const [text, setText] = useState("");
 
   async function load() {
@@ -50,7 +50,7 @@ export default function Item() {
   return (
     <div style={{ padding: 16, maxWidth: 800 }}>
       <h2>{item.title}</h2>
-      <div>{item.creator} • {item.type}</div>
+      <div>{item.creator} • {item.type.charAt(0).toUpperCase() + item.type.slice(1)}</div>
       {item.details && <p style={{ opacity: 0.85 }}>{item.details}</p>}
 
       <div style={{ display: "flex", gap: 8, margin: "12px 0" }}>

@@ -27,7 +27,7 @@ export default function ToExperience() {
         {entries.map((en) => (
           <li key={`${en.user_id}-${en.media_id}`} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 12 }}>
             <div>
-              Item: <Link to={`/items/${en.media_id}`}>{en.media_id}</Link>
+              <Link to={`/items/${en.media_id}`}>{en.media_item.title}</Link>
             </div>
             <div style={{ opacity: 0.8 }}>Added: {en.added_at}</div>
           </li>

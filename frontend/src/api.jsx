@@ -42,7 +42,7 @@ export const api = {
   login: (payload) => request("/login", { method: "POST", body: payload, auth: false }),
   me: () => request("/me"),
 
-  feed: () => request("/feed"),
+  feed: () => request("/"),
   discover: (q) => request(`/discover${q ? `?q=${encodeURIComponent(q)}` : ""}`),
   item: (id) => request(`/items/${id}`),
   profile: (id) => request(`/users/${id}`),
