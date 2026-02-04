@@ -187,6 +187,7 @@ class ReviewSchema(Schema):
     created_at = fields.Date(dump_only=True)
 
     media_item = fields.Nested(MediaItemSchema, dump_only=True)
+    user = fields.Nested(UserSchema(only=("id", "username")), dump_only=True)
 
 class FollowSchema(Schema):
     follower_id = fields.Int(dump_only=True)

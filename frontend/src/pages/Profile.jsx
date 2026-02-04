@@ -20,8 +20,6 @@ export default function Profile({ me }) {
     load().catch((e) => setErr(e.message));
   }, [id]);
 
-  // NOTE: Backend currently returns counts but not "am I following?"
-  // We'll do a minimal follow/unfollow UI that always tries follow first.
   async function follow() {
     await api.follow(userId);
     await load();
@@ -35,7 +33,7 @@ export default function Profile({ me }) {
   if (err) return <div style={{ padding: 16, color: "crimson" }}>{err}</div>;
   if (!data) return <div style={{ padding: 16 }}>Loading…</div>;
 
-  const { profile, items, follower_count, following_count } = data;
+  const { profile, reviews, items, follower_count, following_count } = data;
 
   return (
     <div style={{ padding: 16 }}>
@@ -51,7 +49,40 @@ export default function Profile({ me }) {
         </div>
       )}
 
-      <h3 style={{ marginTop: 16 }}>Items</h3>
+      <h3 style={{ marginTop: 18 }}>Reviews</h3>
+
+      {(!reviews || reviews.length === 0) ? (
+      <div style={{ opacity: 0.7 }}>No reviews yet.</div>
+      ) : (
+      <ul style={{ listStyle: "none", padding: 0, display: "grid", gap: 10 }}>
+        {reviews.map((r) => (
+      <li
+        key={`${r.user_id}-${r.media_id}`}
+        style={{ border: "1px solid #ddd", borderRadius: 10, padding: 12 }}
+      >
+        <Link to={`/items/${r.media_id}`} style={{ fontWeight: 800 }}>
+          {r.media_item?.title ?? `Item #${r.media_id}`}
+        </Link>
+
+        <div style={{ opacity: 0.85, marginTop: 4 }}>
+          {r.media_item?.creator ? `${r.media_item.creator} • ` : ""}
+          Rating: {r.rating} •{" "}
+          {(r.media_item?.type ?? "").charAt(0).toUpperCase() + (r.media_item?.type ?? "").slice(1)}
+        </div>
+
+        {r.text && <div style={{ marginTop: 8 }}>{r.text}</div>}
+
+        {r.created_at && (
+          <div style={{ opacity: 0.7, marginTop: 8 }}>
+            {r.created_at}
+          </div>
+        )}
+        </li>
+        ))}
+      </ul>
+      )}
+
+      <h3 style={{ marginTop: 16 }}>Media</h3>
       <ul style={{ listStyle: "none", padding: 0, display: "grid", gap: 10 }}>
         {items.map((it) => (
           <li key={it.id} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 12 }}>

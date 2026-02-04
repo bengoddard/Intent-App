@@ -6,12 +6,12 @@ function NavBar({ me }) {
   const navigate = useNavigate();
 
   return (
-    <div style={{ display: "flex", gap: 12, padding: 12, borderBottom: "1px solid #ddd" }}>
+    <div style={{ position: "sticky", top: 0, zIndex: 1000, display: "flex", gap: 12, padding: 12, borderBottom: "1px solid #ddd" }}>
       <Link to="/" style={{ fontWeight: 800, textDecoration: "none" }}>Intent</Link>
 
       <NavLink to="/" end>Feed</NavLink>
       <NavLink to="/discover">Discover</NavLink>
-      <NavLink to="/to-experience">To-Experience</NavLink>
+      <NavLink to="/to-experience">Experience</NavLink>
 
       <div style={{ marginLeft: "auto", display: "flex", gap: 12, alignItems: "center" }}>
         {me ? (

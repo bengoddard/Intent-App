@@ -20,7 +20,7 @@ export default function ToExperience() {
 
   return (
     <div style={{ padding: 16 }}>
-      <h2>To-Experience</h2>
+      <h2>Experience</h2>
       {err && <div style={{ color: "crimson" }}>{err}</div>}
 
       <ul style={{ listStyle: "none", padding: 0, display: "grid", gap: 10 }}>
@@ -28,6 +28,7 @@ export default function ToExperience() {
           <li key={`${en.user_id}-${en.media_id}`} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 12 }}>
             <div>
               <Link to={`/items/${en.media_id}`}>{en.media_item.title}</Link>
+              {en.media_item.details && <div style={{ opacity: 0.8, marginTop: 6 }}>{en.media_item.details}</div>}
             </div>
             <div style={{ opacity: 0.8 }}>Added: {en.added_at}</div>
           </li>

@@ -68,12 +68,20 @@ class Profile(Resource):
             .all()
         )
 
+        reviews = (
+            Review.query
+            .filter_by(user_id=user.id)
+            .order_by(Review.created_at.desc())
+            .all()
+        )
+
         follower_count = Follow.query.filter_by(following_id=user.id).count()
         following_count = Follow.query.filter_by(follower_id=user.id).count()
 
         return {
             "profile": UserSchema().dump(user),
             "items": MediaItemSchema(many=True).dump(items),
+            "reviews": ReviewSchema(many=True).dump(reviews),
             "follower_count": follower_count,
             "following_count": following_count,
         }, 200

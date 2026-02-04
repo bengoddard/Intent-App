@@ -11,7 +11,7 @@ import Feed from "./pages/Feed";
 import Discover from "./pages/Discover";
 import Item from "./pages/Item";
 import Profile from "./pages/Profile";
-import ToExperience from "./pages/ToExperience";
+import ToExperience from "./pages/Experience";
 
 function App() {
   const [me, setMe] = useState(null);
@@ -45,6 +45,7 @@ function App() {
       {loadingMe ? (
         <div style={{ padding: 16 }}>Loading…</div>
       ) : (
+        <div style={{maxWidth: 1100, margin: "0 auto", width: "100%"}}>
         <Routes>
           <Route
             path="/"
@@ -90,6 +91,7 @@ function App() {
           <Route path="/login" element={<Login onAuth={refreshMe} />} />
           <Route path="/signup" element={<Signup onAuth={refreshMe} />} />
         </Routes>
+        </div>
       )}
     </BrowserRouter>
   );

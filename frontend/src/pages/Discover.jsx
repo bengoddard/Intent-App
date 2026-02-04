@@ -31,7 +31,6 @@ export default function Discover() {
     setErr("");
     try {
       const newItem = await api.createItem({ type, title, creator, details });
-      // show it at top + clear
       setItems((prev) => [newItem, ...prev]);
       setTitle("");
       setCreator("");
@@ -42,7 +41,7 @@ export default function Discover() {
   }
 
   return (
-    <div style={{ padding: 16, display: "grid", gap: 18 }}>
+    <div style={{ padding: 16 }}>
       <div>
         <h2>Discover</h2>
         <form
@@ -57,7 +56,7 @@ export default function Discover() {
         </form>
       </div>
 
-      <div style={{ border: "1px solid #ddd", borderRadius: 10, padding: 12, maxWidth: 700 }}>
+      <div style={{ border: "1px solid #ddd", borderRadius: 10, padding: 12 }}>
         <h3 style={{ marginTop: 0 }}>Add a new item</h3>
         <form onSubmit={createItem} style={{ display: "grid", gap: 8 }}>
           <label>
@@ -84,6 +83,7 @@ export default function Discover() {
           <li key={it.id} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 12 }}>
             <Link to={`/items/${it.id}`} style={{ fontWeight: 800 }}>{it.title}</Link>
             <div>{it.creator} • {it.type.charAt(0).toUpperCase() + it.type.slice(1)}</div>
+            {it.details && <div style={{ opacity: 0.8, marginTop: 6 }}>{it.details}</div>}
           </li>
         ))}
       </ul>
