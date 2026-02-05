@@ -27,7 +27,13 @@ async function request(path, { method = "GET", body, auth = true } = {}) {
   });
 
   const contentType = res.headers.get("content-type") || "";
-  const data = contentType.includes("application/json") ? await res.json() : null;
+  let data = null;
+  if (res.status !== 204) {
+    const text = await res.text();
+    if (text) {
+      data = contentType.includes("application/json") ? JSON.parse(text) : text;
+    }
+  }
 
   if (!res.ok) {
     const msg = data?.error || data?.message || `Request failed (${res.status})`;
