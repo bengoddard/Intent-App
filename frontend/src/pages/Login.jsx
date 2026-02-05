@@ -16,7 +16,7 @@ export default function Login({ onAuth }) {
       const { token } = await api.login({ username, password });
       setToken(token);
       await onAuth?.();
-      const redirectTo = location.state?.from || "/";
+      const redirectTo = location.state?.from || "/feed";
       navigate(redirectTo);
     } catch (e) {
       setErr(e.message);

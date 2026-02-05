@@ -39,10 +39,10 @@ async function request(path, { method = "GET", body, auth = true } = {}) {
 
 export const api = {
   signup: (payload) => request("/signup", { method: "POST", body: payload, auth: false }),
-  login: (payload) => request("/login", { method: "POST", body: payload, auth: false }),
+  login: (payload) => request("/", { method: "POST", body: payload, auth: false }),
   me: () => request("/me"),
 
-  feed: () => request("/"),
+  feed: () => request("/feed"),
   discover: (q) => request(`/discover${q ? `?q=${encodeURIComponent(q)}` : ""}`),
   item: (id) => request(`/items/${id}`),
   profile: (id) => request(`/users/${id}`),

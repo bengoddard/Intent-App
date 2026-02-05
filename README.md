@@ -74,5 +74,5 @@ This project was created using Flask for the backend and React for the frontend.
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|---------------|
 | POST | `/signup` | Register new user | No |
-| POST | `/login` | Login user | No |
+| POST | `/` | Login user | No |
 | GET | `/me` | Get current user | Yes |

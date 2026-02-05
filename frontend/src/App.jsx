@@ -41,7 +41,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar me={me} />
+      <NavBar me={me} setMe={setMe}/>
 
       {loadingMe ? (
         <div style={{ padding: 16 }}>Loading…</div>
@@ -49,7 +49,7 @@ function App() {
         <div className="page">
         <Routes>
           <Route
-            path="/"
+            path="/feed"
             element={
               <RequireAuth>
                 <Feed />
@@ -89,7 +89,7 @@ function App() {
             }
           />
 
-          <Route path="/login" element={<Login onAuth={refreshMe} />} />
+          <Route path="/" element={<Login onAuth={refreshMe} />} />
           <Route path="/signup" element={<Signup onAuth={refreshMe} />} />
         </Routes>
         </div>

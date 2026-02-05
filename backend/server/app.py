@@ -355,9 +355,9 @@ class UnfollowUser(Resource):
         return {}, 204
 
 api.add_resource(Signup, '/signup', endpoint='signup')
-api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(Login, '/', endpoint='login')
 api.add_resource(Me, '/me', endpoint='me')
-api.add_resource(Feed, '/', endpoint='feed')
+api.add_resource(Feed, '/feed', endpoint='feed')
 api.add_resource(Discover, '/discover', endpoint='discover')
 api.add_resource(Profile, '/users/<int:id>', endpoint='profile')
 api.add_resource(ToExperience, '/to-experience', endpoint='to_experience')

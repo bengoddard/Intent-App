@@ -76,15 +76,15 @@ function MediaCard({ item, token, onUpdated, onDeleted }){
   }
 
   return (
-    <div style={{ border: "1px solid #ddd", borderRadius: 8, padding: 12, marginBottom: 12 }} className="card">
+    <div className="card" style={{ border: "1px solid #ddd", borderRadius: 8, padding: 12, marginBottom: 12 }}>
       {!isEditing ? (
         <>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
             <div>
-              <h3 style={{ margin: "0 0 6px 0" }}>{item.title}</h3>
+              <h3 className="card-title" style={{ margin: "0 0 6px 0" }}>{item.title}</h3>
               <div style={{ fontSize: 14, opacity: 0.85 }}>
-                <div><strong>Type:</strong> {item.type}</div>
-                <div><strong>Details:</strong> {item.details}</div>
+                <div className="meta"><strong>Type:</strong> {item.type}</div>
+                <div className="description"><strong>Details:</strong> {item.details}</div>
               </div>
             </div>
 
