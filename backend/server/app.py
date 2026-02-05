@@ -54,6 +54,13 @@ class Login(Resource):
 
         return {'error': '401 Unauthorized'}, 401
 
+class Me(Resource):
+    def get(self):
+        user_id = int(get_jwt_identity())
+        print(user_id)
+        if user_id:
+            return user_id
+
 class Profile(Resource):
     def get(self, id):
         user = User.query.get(id)
@@ -349,6 +356,7 @@ class UnfollowUser(Resource):
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(Me, '/me', endpoint='me')
 api.add_resource(Feed, '/', endpoint='feed')
 api.add_resource(Discover, '/discover', endpoint='discover')
 api.add_resource(Profile, '/users/<int:id>', endpoint='profile')

@@ -27,6 +27,7 @@ function App() {
     try {
       const data = await api.me();
       setMe(data);
+      console.log(data)
     } catch {
       setMe(null);
     } finally {
@@ -45,7 +46,7 @@ function App() {
       {loadingMe ? (
         <div style={{ padding: 16 }}>Loading…</div>
       ) : (
-        <div style={{maxWidth: 1100, margin: "0 auto", width: "100%"}}>
+        <div className="page">
         <Routes>
           <Route
             path="/"
