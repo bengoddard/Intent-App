@@ -27,7 +27,10 @@ export default function Feed() {
         {items.map((it) => (
           <li key={it.id} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 12 }}>
             <Link to={`/items/${it.id}`} style={{ fontWeight: 800 }}>{it.title}</Link>
-            <div>{it.creator} • {it.type.charAt(0).toUpperCase() + it.type.slice(1)} • <span className="added">Added by {it.user.username.charAt(0).toUpperCase() + it.user.username.slice(1)}</span></div>
+            <div>{it.creator} • {it.type.charAt(0).toUpperCase() + it.type.slice(1)} • <span className="added">Added by <Link to={`/users/${it.user?.id ?? it.user_id}`}>
+                              {it.user?.username.charAt(0).toUpperCase() + it.user?.username.slice(1) ?? "unknown"}
+                              {it.is_mine ? " (you)" : ""}
+                            </Link></span></div>
             {it.details && <div style={{ opacity: 0.8 }}>{it.details}</div>}
           </li>
         ))}

@@ -70,7 +70,7 @@ export default function Profile({ me }) {
 
   return (
     <div style={{ padding: 16 }}>
-      <h2>@{profile.username}</h2>
+      <h2>@{profile.username.charAt(0).toUpperCase() + profile.username.slice(1)}</h2>
       <div style={{ opacity: 0.8 }}>
         Followers: {follower_count} • Following: {following_count}
       </div>
