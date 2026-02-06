@@ -68,11 +68,33 @@ This project was created using Flask for the backend and React for the frontend.
    The frontend will run at **http://localhost:4000**
 
 
+Look at these logins to see the sample data:
+Username    Password
+alice       password123
+bob         password123
+charlie     password123
+ben         password
 
 ### API Endpoints
 
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|---------------|
-| POST | `/signup` | Register new user | No |
-| POST | `/` | Login user | No |
-| GET | `/me` | Get current user | Yes |
+| POST | `/signup`| Register new user | No |
+| POST | `/`  | Login user | No |
+| GET  | `/me`| Get current user | Yes |
+| GET  | `/users/<id>`| User profile | Yes |
+| GET  | `/feed`| Current user's feed | Yes |
+| POST  | `/items`| Post new item | Yes |
+| GET  | `/items/<id>`| Get Item | Yes |
+| PATCH  | `/items/<id>`| Update Item | Yes |
+| DELETE  | `/items/<id>`| Delete Item | Yes |
+| GET  | `/discover`| Discover media added by other users | Yes |
+| GET  | `/to-experience`| Current user to experience list| Yes |
+| POST  | `/list`| Add to experience list | Yes |
+| DELETE  | `/list/<media_id>`| Delete list entry | Yes |
+| PATCH  | `/list/<media_id>/status`| Update list entry status | Yes |
+| POST  | `/reviews`| Post review for item | Yes |
+| DELETE  | `/reviews/<media_id>`| Delete review of item | Yes |
+| POST  | `/follow`| Follow a user | Yes |
+| DELETE  | `/follow/<user_id>`| Unfollow user | Yes |
+

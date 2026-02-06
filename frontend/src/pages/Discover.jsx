@@ -79,13 +79,14 @@ export default function Discover() {
       <div>
         <h2>Discover</h2>
         <input
+          className="input"
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Search…"
         />
         <label>
           Type{" "}
-          <select value={sortType} onChange={(e) => setSortType(e.target.value)}>
+          <select className="input" value={sortType} onChange={(e) => setSortType(e.target.value)}>
             {TYPE_OPTIONS.map((t) => (
               <option key={t} value={t}>
                 {t === "all" ? "All" : t.charAt(0).toUpperCase() + t.slice(1)}
@@ -96,7 +97,7 @@ export default function Discover() {
 
         <label>
           Sort{" "}
-          <select value={sort} onChange={(e) => setSort(e.target.value)}>
+          <select className="input"value={sort} onChange={(e) => setSort(e.target.value)}>
             <option value="title">Title</option>
             <option value="creator">Creator</option>
           </select>
@@ -108,7 +109,7 @@ export default function Discover() {
         <form onSubmit={createItem} style={{ display: "grid", gap: 8 }}>
           <label>
             Type
-            <select value={type} onChange={(e) => setType(e.target.value)}>
+            <select className="input" value={type} onChange={(e) => setType(e.target.value)}>
               <option value="book">Book</option>
               <option value="movie">Movie</option>
               <option value="show">Show</option>
@@ -116,9 +117,9 @@ export default function Discover() {
               <option value="music">Music</option>
             </select>
           </label>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />
-          <input value={creator} onChange={(e) => setCreator(e.target.value)} placeholder="Creator" required />
-          <input value={details} onChange={(e) => setDetails(e.target.value)} placeholder="Details (optional)" />
+          <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />
+          <input className="input" value={creator} onChange={(e) => setCreator(e.target.value)} placeholder="Creator" required />
+          <input className="input" value={details} onChange={(e) => setDetails(e.target.value)} placeholder="Details (optional)" />
           <button>Create</button>
         </form>
       </div>
