@@ -15,21 +15,6 @@ export default function Discover() {
   const [title, setTitle] = useState("");
   const [creator, setCreator] = useState("");
   const [details, setDetails] = useState("");
-/*
-  async function runSearch(query) {
-    setErr("");
-    try {
-      const data = await api.discover(query);
-      setItems(data);
-    } catch (e) {
-      setErr(e.message);
-    }
-  }
-
-  useEffect(() => {
-    runSearch("");
-  }, []);
-*/
 
   useEffect(() => {
     (async () => {
