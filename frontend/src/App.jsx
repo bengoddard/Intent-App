@@ -27,6 +27,7 @@ function App() {
     try {
       const data = await api.me();
       setMe(data);
+      console.log(data)
     } catch {
       setMe(null);
     } finally {
@@ -40,15 +41,15 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar me={me} />
+      <NavBar me={me} setMe={setMe}/>
 
       {loadingMe ? (
         <div style={{ padding: 16 }}>Loading…</div>
       ) : (
-        <div style={{maxWidth: 1100, margin: "0 auto", width: "100%"}}>
+        <div className="page">
         <Routes>
           <Route
-            path="/"
+            path="/feed"
             element={
               <RequireAuth>
                 <Feed />
@@ -88,7 +89,7 @@ function App() {
             }
           />
 
-          <Route path="/login" element={<Login onAuth={refreshMe} />} />
+          <Route path="/" element={<Login onAuth={refreshMe} />} />
           <Route path="/signup" element={<Signup onAuth={refreshMe} />} />
         </Routes>
         </div>

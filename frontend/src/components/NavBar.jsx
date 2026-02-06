@@ -2,33 +2,33 @@ import React from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { clearToken } from "../api";
 
-function NavBar({ me }) {
+function NavBar({ me, setMe }) {
   const navigate = useNavigate();
 
   return (
-    <div style={{ position: "sticky", top: 0, zIndex: 1000, display: "flex", gap: 12, padding: 12, borderBottom: "1px solid #ddd" }}>
-      <Link to="/" style={{ fontWeight: 800, textDecoration: "none" }}>Intent</Link>
+    <div className='navbar'>
+      <Link to="/feed" style={{ fontWeight: 800, textDecoration: "none" }}>Intent</Link>
 
-      <NavLink to="/" end>Feed</NavLink>
       <NavLink to="/discover">Discover</NavLink>
       <NavLink to="/to-experience">Experience</NavLink>
 
-      <div style={{ marginLeft: "auto", display: "flex", gap: 12, alignItems: "center" }}>
+      <div className="navbar-inner">
         {me ? (
           <>
-            <NavLink to={`/users/${me.id}`}>@{me.username}</NavLink>
+            <NavLink to={`/users/${me}`} className="nav-link my-profile">My Profile</NavLink>
             <button
               onClick={() => {
                 clearToken();
-                navigate("/login");
+                setMe(null);
+                navigate("/");
               }}
             >
-              Log out
+              Logout
             </button>
           </>
         ) : (
           <>
-            <NavLink to="/login">Log in</NavLink>
+            <NavLink to="/">Log in</NavLink>
             <NavLink to="/signup">Sign up</NavLink>
           </>
         )}

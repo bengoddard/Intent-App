@@ -6,6 +6,8 @@ export default function Profile({ me }) {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const userId = Number(id);
   const isMe = me?.id === userId;
@@ -14,21 +16,52 @@ export default function Profile({ me }) {
     setErr("");
     const d = await api.profile(userId);
     setData(d);
+
+    const fromApi = d?.is_following ?? d?.profile?.is_following;
+    if (typeof fromApi === "boolean") setIsFollowing(fromApi);
   }
+
 
   useEffect(() => {
     load().catch((e) => setErr(e.message));
   }, [id]);
 
+
   async function follow() {
-    await api.follow(userId);
-    await load();
+    if (busy) return;
+    setBusy(true);
+    setErr("");
+    try {
+      await api.follow(userId);
+      setIsFollowing(true);
+      await load();
+    } catch (e) {
+      setErr(e.message);
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function unfollow() {
-    await api.unfollow(userId);
-    await load();
+    if (busy) return;
+    setBusy(true);
+    setErr("");
+    try {
+      await api.unfollow(userId);
+      setIsFollowing(false);
+      await load();
+    } catch (e) {
+      if (String(e.message).toLowerCase().includes("not found")) {
+        setIsFollowing(false);
+        await load();
+      } else {
+        setErr(e.message);
+      }
+    } finally {
+      setBusy(false);
+    }
   }
+
 
   if (err) return <div style={{ padding: 16, color: "crimson" }}>{err}</div>;
   if (!data) return <div style={{ padding: 16 }}>Loading…</div>;
@@ -44,8 +77,15 @@ export default function Profile({ me }) {
 
       {!isMe && (
         <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
-          <button onClick={follow}>Follow</button>
-          <button onClick={unfollow}>Unfollow</button>
+          {isFollowing ? (
+            <button onClick={unfollow} disabled={busy}>
+              {busy ? "…" : "Unfollow"}
+            </button>
+          ) : (
+            <button onClick={follow} disabled={busy}>
+              {busy ? "…" : "Follow"}
+            </button>
+          )}
         </div>
       )}
 
@@ -87,7 +127,7 @@ export default function Profile({ me }) {
         {items.map((it) => (
           <li key={it.id} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 12 }}>
             <Link to={`/items/${it.id}`} style={{ fontWeight: 800 }}>{it.title}</Link>
-            <div>{it.creator} • {it.type}</div>
+            <div>{it.creator} • {it.type.charAt(0).toUpperCase() + it.type.slice(1)}</div>
           </li>
         ))}
       </ul>

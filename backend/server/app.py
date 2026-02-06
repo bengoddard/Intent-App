@@ -54,6 +54,13 @@ class Login(Resource):
 
         return {'error': '401 Unauthorized'}, 401
 
+class Me(Resource):
+    def get(self):
+        user_id = int(get_jwt_identity())
+        print(user_id)
+        if user_id:
+            return user_id
+
 class Profile(Resource):
     def get(self, id):
         user = User.query.get(id)
@@ -75,6 +82,13 @@ class Profile(Resource):
             .all()
         )
 
+        viewer_id = get_jwt_identity()
+
+        is_following = Follow.query.filter_by(
+        follower_id=int(viewer_id),
+        following_id=int(user.id)
+        ).first() is not None
+
         follower_count = Follow.query.filter_by(following_id=user.id).count()
         following_count = Follow.query.filter_by(follower_id=user.id).count()
 
@@ -84,6 +98,7 @@ class Profile(Resource):
             "reviews": ReviewSchema(many=True).dump(reviews),
             "follower_count": follower_count,
             "following_count": following_count,
+            "is_following": is_following,
         }, 200
 
 class Feed(Resource):
@@ -348,8 +363,9 @@ class UnfollowUser(Resource):
         return {}, 204
 
 api.add_resource(Signup, '/signup', endpoint='signup')
-api.add_resource(Login, '/login', endpoint='login')
-api.add_resource(Feed, '/', endpoint='feed')
+api.add_resource(Login, '/', endpoint='login')
+api.add_resource(Me, '/me', endpoint='me')
+api.add_resource(Feed, '/feed', endpoint='feed')
 api.add_resource(Discover, '/discover', endpoint='discover')
 api.add_resource(Profile, '/users/<int:id>', endpoint='profile')
 api.add_resource(ToExperience, '/to-experience', endpoint='to_experience')

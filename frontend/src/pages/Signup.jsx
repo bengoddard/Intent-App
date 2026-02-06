@@ -31,7 +31,7 @@ export default function Signup({ onAuth }) {
         <button>Create account</button>
       </form>
       <p style={{ marginTop: 10 }}>
-        Have an account? <Link to="/login">Log in</Link>
+        Have an account? <Link to="/">Log in</Link>
       </p>
     </div>
   );

@@ -7,7 +7,7 @@ export default function RequireAuth({ children }) {
   const token = getToken();
 
   if (!token) {
-    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+    return <Navigate to="/" replace state={{ from: location.pathname }} />;
   }
   return children;
 }

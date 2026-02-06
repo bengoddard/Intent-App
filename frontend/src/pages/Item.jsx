@@ -95,6 +95,7 @@ export default function Item({ me }) {
         <label>
           Rating (0–100)
           <input
+            className="input"
             type="number"
             min="0"
             max="100"
@@ -102,7 +103,7 @@ export default function Item({ me }) {
             onChange={(e) => setRating(e.target.value)}
           />
         </label>
-        <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder="Thoughts…" />
+        <textarea className="input" value={text} onChange={(e) => setText(e.target.value)} placeholder="Thoughts…" />
         <button>{myReview ? "Update" : "Submit"}</button>
       </form>
 
